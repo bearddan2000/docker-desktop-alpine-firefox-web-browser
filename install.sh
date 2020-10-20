@@ -82,6 +82,10 @@ function start-up(){
 
     sudo docker build -t gui .
 
+    echo "$info_base enabling xhost connection to image"
+
+    xhost +localhost
+
     echo "$info_base running image" >> $logfile
 
     sudo docker run -ti --rm -e DISPLAY=$DISPLAY  -v /tmp/.X11-unix:/tmp/.X11-unix  gui
