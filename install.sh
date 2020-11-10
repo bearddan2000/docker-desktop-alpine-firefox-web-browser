@@ -74,21 +74,22 @@ function usage() {
 function start-up(){
 
     scope="start-up"
+    docker_img_name=`head -n 1 README.md | sed 's/# //'`
     info_base="[$timestamp INFO]: $basefile::$scope"
 
     echo "$info_base started" >> $logfile
 
     echo "$info_base build image" >> $logfile
 
-    sudo docker build -t gui .
+    sudo docker build -t $docker_img_name .
 
     echo "$info_base enabling xhost connection to image"
 
     xhost +localhost
 
     echo "$info_base running image" >> $logfile
-
-    sudo docker run -ti --rm -e DISPLAY=$DISPLAY  -v /tmp/.X11-unix:/tmp/.X11-unix  gui
+    
+    sudo docker run -ti --rm -e DISPLAY=$DISPLAY  -v /tmp/.X11-unix:/tmp/.X11-unix  $docker_img_name
 
     echo "$info_base ended" >> $logfile
 
